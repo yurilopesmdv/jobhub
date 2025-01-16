@@ -32,6 +32,7 @@ create table vacancy (
 	created_at timestamp default current_timestamp,
 	updated_at timestamp default current_timestamp,
 	active boolean default true
+	user_id integer references users(id)
 )
 
 create table profile (
