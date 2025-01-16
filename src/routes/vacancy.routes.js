@@ -1,21 +1,18 @@
 import { Router } from 'express';
+import { validateToken, validateBody, validateQuery } from '../middlewares/validate.middleware.js';
+import { createVacancySchema, deleteVacancySchema, getAllVacanciesSchema, getVacancySchema, updateVacancySchema } from '../schemas/vacancy.schema.js';
+import { getAllVacancies, getVacancy, createVacancy, updateVacancy, deleteVacancy } from '../controllers/vacancy.controller.js';
 
 const vacancyRouter = Router();
 
-vacancyRouter.get('/', (req, res) => {
-  res.json({ message: 'Vacancy' });
-});
+vacancyRouter.get('/all', validateQuery(getAllVacanciesSchema), getAllVacancies);
 
-vacancyRouter.post('/', (req, res) => {
-  res.json({ message: 'Create vacancy' });
-});
+vacancyRouter.get('/', validateQuery(getVacancySchema), getVacancy);
 
-vacancyRouter.put('/:id', (req, res) => {
-  res.json({ message: 'Update vacancy' });
-});
+vacancyRouter.post('/', validateToken, validateBody(createVacancySchema), createVacancy);
 
-vacancyRouter.delete('/:id', (req, res) => {
-  res.json({ message: 'Delete vacancy' });
-});
+vacancyRouter.put('/', validateToken, validateBody(updateVacancySchema), updateVacancy);
+
+vacancyRouter.delete('/', validateToken, validateQuery(deleteVacancySchema), deleteVacancy);
 
 export default vacancyRouter;
